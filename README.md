@@ -2,11 +2,11 @@
 
 Single Page Application (Proyecto Integrador 3) para conversar con **Sherlock Holmes** usando **Google Gemini**. La API key vive solo en el servidor: el frontend habla con una **Vercel Serverless Function** que actúa de proxy.
 
-🌐 **App desplegada:** https://chat-sherlock-hrex.vercel.app/home 
+🌐 **App desplegada:** https://chat-sherlock-hrex.vercel.app
 
 ## El personaje
 
-Sherlock Holmes, el detective consultor de 221B Baker Street (Sir Arthur Conan Doyle). Es brillante, observador, formal y algo arrogante, con humor ácido. Responde en 1–3 frases cortas, en el idioma del usuario, y nunca sale del personaje. Su *system prompt* está en [`api/_prompt.js`](api/_prompt.js) (personalidad, conocimiento, estilo de respuesta y límites).
+Sherlock Holmes, el detective consultor de 221B Baker Street (Sir Arthur Conan Doyle). Es brillante, observador, formal y algo arrogante, con humor ácido. Responde en 1 o 2 frases (como máximo unas 40 palabras), en el idioma del usuario, y nunca sale del personaje. Su *system prompt* está en [`api/_prompt.js`](api/_prompt.js) (personalidad, conocimiento, estilo de respuesta y límites).
 
 ## Capturas
 
@@ -14,7 +14,7 @@ Sherlock Holmes, el detective consultor de 221B Baker Street (Sir Arthur Conan D
 |---|---|---|
 | ![home](docs/home-mobile.png) | ![chat](docs/chat-mobile.png) | ![desktop](docs/chat-desktop.png) |
 
-> Las capturas se tomaron con la respuesta de Gemini simulada localmente; en la app desplegada responde el modelo real. Reemplázalas por capturas de tu despliegue si lo prefieres.
+> Capturas de la app desplegada: Home en celular, y el chat en celular y en escritorio, con una respuesta real de Gemini.
 
 ## Funcionalidades
 
@@ -50,7 +50,7 @@ npx vercel login            # solo la primera vez
 npm start                   # = vercel dev → http://localhost:3000
 ```
 
-La primera vez `vercel dev` pide vincular/crear un proyecto; acepta los valores por defecto.
+La primera vez `vercel dev` pide vincular/crear un proyecto; acepta los valores por defecto. Si el puerto 3000 está ocupado, la CLI elige otro y lo imprime al final (`Ready! Available at …`). En Windows, estos comandos funcionan en Git Bash.
 
 ## Tests
 
@@ -64,8 +64,9 @@ Vitest (entorno jsdom) cubre: resolución de rutas, transformación de mensajes,
 
 1. Sube el repo a GitHub (público) e impórtalo en [vercel.com/new](https://vercel.com/new).
 2. Deja **Root Directory** en `./` y Framework preset en *Other*.
-3. En **Settings → Environment Variables** agrega `GEMINI_API_KEY` (y opcionalmente `GEMINI_MODEL`).
-4. Despliega y prueba `/home`, `/chat` (envía un mensaje) y una recarga en `/about`.
+3. En **Build and Output Settings**, deja apagado el override de **Build Command**. El proyecto no tiene `npm run build`. **Output Directory** puede quedar en `src` (también está en `vercel.json`).
+4. En **Environment Variables** agrega `GEMINI_API_KEY` (y, si quieres, `GEMINI_MODEL`; si no, el servidor usa `gemini-3.1-flash-lite`).
+5. Despliega y prueba `/home`, `/chat` (envía un mensaje) y una recarga en `/about`. Si agregas la clave después del primer deploy, hay que volver a desplegar para que la función la vea.
 
 ## Seguridad
 
@@ -74,10 +75,9 @@ Vitest (entorno jsdom) cubre: resolución de rutas, transformación de mensajes,
 
 ## Registro del uso de IA
 
-> Completa/ajusta esta sección con tus propios prompts y decisiones; es parte de la entrega.
-
 | Herramienta | Prompt / uso | Cómo influyó | Decisión |
 |---|---|---|---|
 | Claude Code | Se le entregó la consigna y la guía del proyecto y se pidió implementar la SPA completa con Sherlock Holmes como personaje. | Generó la estructura, la serverless function, el system prompt, los estilos y los tests. | Sherlock por su tono distintivo; repositorio propio (`chat-sherlock`) separado de otro proyecto. |
-| Claude Code | Verificación en navegador headless con Gemini simulado. | Confirmó routing, back/forward, deep links, persistencia y scroll. | Se agregó `thinkingBudget: 0` en `gemini-2.5-flash` para que el límite de tokens no se consuma en "pensar". |
-| Google AI Studio | _(pendiente: iterar el system prompt allí, como recomienda la guía)_ | | |
+| Claude Code | Verificación en navegador con el chat todavía en memoria, antes de conectar Gemini. | Confirmó routing, back/forward, deep links, persistencia y scroll. | El chat se probó con un array de mensajes antes de llamar a la API. |
+| Cursor | Se pidió conectar el chat a Gemini y, al fallar `gemini-3.8-flash` con HTTP 503 por alta demanda, probar qué modelo respondía. | El proxy ya existía; el envío del frontend pasó a usar `fetch` contra `/api/functions`. | El modelo por defecto quedó en `gemini-3.1-flash-lite`. `thinkingBudget: 0` sigue aplicándose a los modelos flash para no gastar la salida en “pensar”. |
+| Cursor | “Mejora el system prompt de `api/_prompt.js` para que Sherlock sea más ingenioso y breve. Muéstrame el diff antes de aplicarlo.” | Se mostró el diff y, al aceptarlo, se acortó el prompt. | 1 o 2 frases, máximo 40 palabras, una sola pulla y una sola deducción por mensaje. No se iteró en Google AI Studio. |
