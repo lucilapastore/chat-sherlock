@@ -3,7 +3,7 @@
 import { SYSTEM_PROMPT } from './_prompt.js';
 import { validateMessages, toGeminiContents, parseGeminiResponse } from './_lib.js';
 
-const DEFAULT_MODEL = 'gemini-2.5-flash';
+const DEFAULT_MODEL = 'gemini-3.1-flash-lite';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -31,8 +31,8 @@ export default async function handler(req, res) {
         generationConfig: {
           temperature: 0.9,
           maxOutputTokens: 512,
-          // Sin "thinking" en 2.5-flash: respuestas de chat rápidas y sin gastar tokens de salida.
-          ...(model.startsWith('gemini-2.5-flash') && { thinkingConfig: { thinkingBudget: 0 } }),
+          // Sin "thinking" en modelos flash: respuestas de chat rápidas y sin gastar tokens de salida.
+          ...(/^gemini-[\d.]+-flash/.test(model) && { thinkingConfig: { thinkingBudget: 0 } }),
         },
       }),
     });
