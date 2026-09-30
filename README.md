@@ -47,7 +47,7 @@ Requisitos: Node.js 18+, cuenta en Vercel y una API key de [Google AI Studio](ht
 npm install
 cp .env.example .env        # y completa GEMINI_API_KEY
 npx vercel login            # solo la primera vez
-npm run dev                 # = vercel dev → http://localhost:3000
+npm start                   # = vercel dev → http://localhost:3000
 ```
 
 La primera vez `vercel dev` pide vincular/crear un proyecto; acepta los valores por defecto.
