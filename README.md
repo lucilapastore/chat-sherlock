@@ -2,7 +2,7 @@
 
 Single Page Application (Proyecto Integrador 3) para conversar con **Sherlock Holmes** usando **Google Gemini**. La API key vive solo en el servidor: el frontend habla con una **Vercel Serverless Function** que actúa de proxy.
 
-🌐 **App desplegada:** _(pega aquí la URL pública de Vercel)_
+🌐 **App desplegada:** https://chat-sherlock-hrex.vercel.app/home 
 
 ## El personaje
 
