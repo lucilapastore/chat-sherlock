@@ -41,7 +41,7 @@ vercel.json        Directorio estático + rewrite SPA
 
 ## Ejecutar en local
 
-Requisitos: Node.js 18+, cuenta en Vercel y una API key de [Google AI Studio](https://aistudio.google.com/apikey).
+Requisitos: Node.js 20.19+, cuenta en Vercel y una API key de [Google AI Studio](https://aistudio.google.com/apikey).
 
 ```bash
 npm install
@@ -75,9 +75,12 @@ Vitest (entorno jsdom) cubre: resolución de rutas, transformación de mensajes,
 
 ## Registro del uso de IA
 
-| Herramienta | Prompt / uso | Cómo influyó | Decisión |
+> Completa las filas marcadas con `TODO` con tus prompts reales (copia el texto literal) y lo que decidiste a partir de cada respuesta.
+
+| Herramienta | Prompt utilizado | Cómo influyó | Decisión tomada |
 |---|---|---|---|
 | Claude Code | Se le entregó la consigna y la guía del proyecto y se pidió implementar la SPA completa con Sherlock Holmes como personaje. | Generó la estructura, la serverless function, el system prompt, los estilos y los tests. | Sherlock por su tono distintivo; repositorio propio (`chat-sherlock`) separado de otro proyecto. |
-| Claude Code | Verificación en navegador con el chat todavía en memoria, antes de conectar Gemini. | Confirmó routing, back/forward, deep links, persistencia y scroll. | El chat se probó con un array de mensajes antes de llamar a la API. |
-| Cursor | Se pidió conectar el chat a Gemini y, al fallar `gemini-3.8-flash` con HTTP 503 por alta demanda, probar qué modelo respondía. | El proxy ya existía; el envío del frontend pasó a usar `fetch` contra `/api/functions`. | El modelo por defecto quedó en `gemini-3.1-flash-lite`. `thinkingBudget: 0` sigue aplicándose a los modelos flash para no gastar la salida en “pensar”. |
-| Cursor | “Mejora el system prompt de `api/_prompt.js` para que Sherlock sea más ingenioso y breve. Muéstrame el diff antes de aplicarlo.” | Se mostró el diff y, al aceptarlo, se acortó el prompt. | 1 o 2 frases, máximo 40 palabras, una sola pulla y una sola deducción por mensaje. No se iteró en Google AI Studio. |
+| Claude Code | Verificación en navegador headless con Gemini simulado. | Confirmó routing, back/forward, deep links, persistencia y scroll. | Se agregó `thinkingBudget: 0` en los modelos `flash` para que el límite de tokens no se consuma en "pensar". |
+| Claude Code | Refactor del system prompt de Sherlock para mayor claridad y concisión (commit `94af66f`). | TODO: describe qué cambió en las respuestas del personaje. | TODO: qué conservaste o descartaste. |
+| Claude Code | Revisión del proyecto contra la guía de buenas prácticas. | Detectó commits poco granulares, dependencia sin uso y documentación de IA incompleta. | Se eliminó `@google/generative-ai` (se usa `fetch` directo) y se actualizó el README. |
+| Google AI Studio | TODO: prompt con el que iteraste el system prompt. | TODO | TODO |
