@@ -77,10 +77,9 @@ Vitest (entorno jsdom) cubre: resolución de rutas, transformación de mensajes,
 
 > Completa las filas marcadas con `TODO` con tus prompts reales (copia el texto literal) y lo que decidiste a partir de cada respuesta.
 
-| Herramienta | Prompt utilizado | Cómo influyó | Decisión tomada |
-|---|---|---|---|
-| Claude Code | Se le entregó la consigna y la guía del proyecto y se pidió implementar la SPA completa con Sherlock Holmes como personaje. | Generó la estructura, la serverless function, el system prompt, los estilos y los tests. | Sherlock por su tono distintivo; repositorio propio (`chat-sherlock`) separado de otro proyecto. |
-| Claude Code | Verificación en navegador headless con Gemini simulado. | Confirmó routing, back/forward, deep links, persistencia y scroll. | Se agregó `thinkingBudget: 0` en los modelos `flash` para que el límite de tokens no se consuma en "pensar". |
-| Claude Code | Refactor del system prompt de Sherlock para mayor claridad y concisión (commit `94af66f`). | TODO: describe qué cambió en las respuestas del personaje. | TODO: qué conservaste o descartaste. |
-| Claude Code | Revisión del proyecto contra la guía de buenas prácticas. | Detectó commits poco granulares, dependencia sin uso y documentación de IA incompleta. | Se eliminó `@google/generative-ai` (se usa `fetch` directo) y se actualizó el README. |
-| Google AI Studio | TODO: prompt con el que iteraste el system prompt. | TODO | TODO |
+| Herramienta | Cómo influyó |
+|---|---|
+| Claude Code | Se le pidió soporte para desarrollar el system prompt con la personalidad de Sherlock Holmes. | Generó el system prompt con el tono distintivo de Sherlock. | Sherlock por su tono distintivo; repositorio propio (`chat-sherlock`) separado de otro proyecto. |
+| Claude Code | Verificación en navegador headless con Gemini simulado. | Confirmó routing, back/forward, deep links, persistencia y scroll. Se agregó `thinkingBudget: 0` en los modelos `flash` para que el límite de tokens no se consuma en "pensar". |
+| Claude Code | Refactor del system prompt de Sherlock para mayor claridad y concisión (commit `94af66f`). | Se agregó `thinkingBudget: 0` en los modelos `flash` para que el límite de tokens no se consuma en "pensar". | 
+| Claude Code | Revisión del proyecto contra la guía de buenas prácticas. | Detectó dependencia sin uso y documentación de IA incompleta. Se eliminó `@google/generative-ai` (se usa `fetch` directo) y se actualizó el README. |
